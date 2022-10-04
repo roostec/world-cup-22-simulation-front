@@ -8,7 +8,7 @@ import '@quasar/extras/material-icons/material-icons.css'
 import 'quasar/src/css/index.sass'
 import quasarUserOptions from "./quasar-user-options";
 
-import './style.css'
+
 import App from './App.vue'
 
 // Routes
