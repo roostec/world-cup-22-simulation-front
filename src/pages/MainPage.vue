@@ -7,7 +7,7 @@
   const users = computed(() => store.getters['User/users']);
 
   const $q = useQuasar()
-  
+
   const toggle = () => {
     $q.dark.toggle()
     console.log($q.dark.isActive)
@@ -20,7 +20,9 @@
     <button @click="toggle">
       dark mode
     </button>
-    MAIN
+    <h1 class="text-3xl font-bold underline px-8">
+      Hello world!
+    </h1>
     <ul>
       <li 
         v-for="user in users"
