@@ -1,9 +1,9 @@
 <template>
   <q-page class="flex flex-center bg-grey-1">
-    <q-form @submit="onLogin">
+    <q-form @submit="onForgotPassword">
       <q-card flat bordered style="width: 448px" class="q-pa-md">
         <q-card-section>
-          <div class="text-h5 text-center">TITULO</div>
+          <div class="text-h5 text-center">Recupera senha</div>
         </q-card-section>
         <q-card-section class="q-gutter-sm">
           <q-input
@@ -11,58 +11,48 @@
             v-model="form.email"
             label="Email"
             type="email"
+            :rules="[isEmail]"
             lazy-rules
           >
             <template v-slot:prepend>
               <q-icon name="mdi-email-outline" class="cursor-pointer" />
             </template>
           </q-input>
+          <div class="text-center" style="margin-top: -5px">Ou</div>
           <q-input
             outlined
-            v-model="form.password"
+            v-model="form.cpf"
+            label="CPF"
+            mask="###.###.###-##"
             lazy-rules
-            label="Senha"
-            :type="showPassword ? 'text' : 'password'"
           >
             <template v-slot:prepend>
-              <q-icon name="mdi-form-textbox-password" class="cursor-pointer" />
-            </template>
-            <template v-slot:append>
               <q-icon
-                :name="showPassword ? 'mdi-eye-off-outline' : 'mdi-eye-outline'"
+                name="mdi-card-account-details-outline"
                 class="cursor-pointer"
-                @click="showPassword = !showPassword"
               />
             </template>
           </q-input>
-          <div class="row justify-between" style="margin-top: -12px">
-            <q-space />
-            <a
-              class="text-weight-medium text-primary"
-              href="/forgotpassword"
-              style="text-decoration: none"
-            >
-              Esqueceu a senha?
-            </a>
-          </div>
         </q-card-section>
         <q-card-section class="q-pt-none">
           <q-btn
-            label="Login"
+            label="Enviar"
             color="primary"
             class="full-width q-py-md q-mb-md"
             no-caps
+            :loading="loadingForgotPassword"
             unelevated
             type="submit"
           />
+
           <q-btn
-            label="Criar conta"
+            label="Cancelar"
             color="primary"
             outline
             class="full-width q-py-md"
             no-caps
             unelevated
-            to="/signup"
+            to="signin"
           />
         </q-card-section>
       </q-card>
@@ -73,22 +63,16 @@
 <script lang="ts">
 // import accountMixin from "../mixins/accountMixin";
 export default {
-  name: "SignInPage",
+  name: "ForgotPasswordPage",
   // mixins: [accountMixin],
   data() {
     return {
       form: {
         email: "",
-        password: "",
+        cpf: "",
       },
-      showPassword: false,
+      loadingForgotPassword: false,
     };
-  },
-  methods: {
-    async onLogin() {
-      // this.logIn();
-      console.log('login')
-    },
   },
 };
 </script>

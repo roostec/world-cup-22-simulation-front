@@ -4,35 +4,29 @@ import authGuard from "./authGuard";
 export const routes = [
   {
     path: '',
-    component: () => import('../layouts/MainLayout.vue'),
+    component: () => import('../layouts/AuthLayout.vue'),
     children: [
       { path: "", redirect: "signin" },
-      // {
-      //   path: "404",
-      //   name: "404",
-      //   component: () =>
-      //     import(/* webpackChunkName: "auth" */ "../pages/404Page.vue"),
-      // },
       {
         path: "signin",
         name: "SignIn",
         component: () =>
           import(/* webpackChunkName: "auth" */ "../pages/SignInPage.vue"),
       },
-      // {
-      //   path: "signup",
-      //   name: "SignUp",
-      //   component: () =>
-      //     import(/* webpackChunkName: "auth" */ "../pages/SignUpPage.vue"),
-      // },
-      // {
-      //   path: "forgoutpassword",
-      //   name: "ForgotPassword",
-      //   component: () =>
-      //     import(
-      //       /* webpackChunkName: "auth" */ "../pages/ForgotPasswordPage.vue"
-      //     ),
-      // },
+      {
+        path: "signup",
+        name: "SignUp",
+        component: () =>
+          import(/* webpackChunkName: "auth" */ "../pages/SignUpPage.vue"),
+      },
+      {
+        path: "forgotpassword",
+        name: "ForgotPassword",
+        component: () =>
+          import(
+            /* webpackChunkName: "auth" */ "../pages/ForgotPasswordPage.vue"
+          ),
+      },
     ],
     
   },

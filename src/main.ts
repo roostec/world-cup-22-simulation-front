@@ -1,31 +1,28 @@
 import { createApp } from 'vue'
 
+// Quasar
 import { Quasar } from 'quasar'
 // Import icon libraries
 import '@quasar/extras/material-icons/material-icons.css'
-
 // Import Quasar css
 import 'quasar/src/css/index.sass'
+import quasarUserOptions from "./quasar-user-options";
 
-import './style.css'
 import App from './App.vue'
 
 // Routes
 import router from './router';
+// State
+import store from './store';
 
 // GlobalMixin
 // import globalMixin from "./mixins/globalMixin";
 
 
 
-const myApp = createApp(App)
-
-myApp
-  .use(Quasar, {
-  plugins: {}, // import Quasar plugins and add here
-})
+createApp(App)
+  .use(Quasar, quasarUserOptions)
   .use(router)
+  .use(store)
   // .use(globalMixin)
-
-// Assumes you have a <div id="app"></div> in your index.html
-myApp.mount('#app')
+  .mount('#app')

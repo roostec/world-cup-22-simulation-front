@@ -1,10 +1,15 @@
 import axios from 'axios';
-import { useStore } from 'vuex';
+// import { useStore } from 'vuex';
 
-const store = useStore();
+// const store = useStore();
 // const schoolName: string = store.getters['siteConfigModule/getSchoolName'];
 
 export default async (to:any, from:any, next:any) => {
+
+  // const user = store.getters['User/users'];
+  // console.log("🚀 ~ file: authGuard.ts ~ line 10 ~ user", user)
+
+
   // const token = localStorage["agendaih_token"]
   //   ? localStorage.getItem("agendaih_token")
   //   : null;
