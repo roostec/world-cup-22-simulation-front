@@ -86,95 +86,7 @@
     </q-header>
 
     <q-drawer v-model="leftDrawerOpen" show-if-above bordered class="bg-grey-2">
-      <q-list>
-        <q-item-label header>Menu</q-item-label>
-
-        <!-- <q-item clickable tag="a" target="_blank" href="https://quasar.dev"> -->
-          <router-link to="SignIn" append>
-            <q-item clickable tag="a" target="_blank" href="https://quasar.dev">
-              <q-item-section avatar>
-                <q-icon name="school" />
-              </q-item-section>
-              <q-item-section>
-                <q-item-label>Home</q-item-label>                
-                <q-item-label caption>Dashboard</q-item-label>
-              </q-item-section>
-            </q-item>
-          </router-link>
-
-          <router-link to="SignIn" append>
-            <q-item clickable tag="a" target="_blank" href="https://quasar.dev">
-              <q-item-section avatar>
-                <q-icon name="code" />
-              </q-item-section>
-              <q-item-section>
-                <q-item-label>Classificacao</q-item-label>                
-                <q-item-label caption>-</q-item-label>
-              </q-item-section>
-            </q-item>
-          </router-link>
-
-          <router-link to="SignIn" append>
-            <q-item clickable tag="a" target="_blank" href="https://quasar.dev">
-              <q-item-section avatar>
-                <q-icon name="chat" />
-              </q-item-section>
-              <q-item-section>
-                <q-item-label>Palpites</q-item-label>                
-                <q-item-label caption>-</q-item-label>
-              </q-item-section>
-            </q-item>
-          </router-link>
-
-          <router-link to="SignIn" append>
-            <q-item clickable tag="a" target="_blank" href="https://quasar.dev">
-              <q-item-section avatar>
-                <q-icon name="forum" />
-              </q-item-section>
-              <q-item-section>
-                <q-item-label>Classificacao</q-item-label>                
-                <q-item-label caption>-</q-item-label>
-              </q-item-section>
-            </q-item>
-          </router-link>
-
-          <router-link to="SignIn" append>
-            <q-item clickable tag="a" target="_blank" href="https://quasar.dev">
-              <q-item-section avatar>
-                <q-icon name="forum" />
-              </q-item-section>
-              <q-item-section>
-                <q-item-label>Convidar Amigos</q-item-label>                
-                <q-item-label caption>-</q-item-label>
-              </q-item-section>
-            </q-item>
-          </router-link>
-
-          <router-link to="SignIn" append>
-            <q-item clickable tag="a" target="_blank" href="https://quasar.dev">
-              <q-item-section avatar>
-                <q-icon name="forum" />
-              </q-item-section>
-              <q-item-section>
-                <q-item-label>Moderacao</q-item-label>                
-                <q-item-label caption>-</q-item-label>
-              </q-item-section>
-            </q-item>
-          </router-link>
-
-          <router-link to="SignIn" append>
-            <q-item clickable tag="a" target="_blank" href="https://quasar.dev">
-              <q-item-section avatar>
-                <q-icon name="rss_feed" />
-              </q-item-section>
-              <q-item-section>
-                <q-item-label>Editar</q-item-label>                
-                <q-item-label caption>-</q-item-label>
-              </q-item-section>
-            </q-item>
-          </router-link> 
-
-      </q-list>
+      <main-menu/>      
     </q-drawer>
     <q-page-container>
       <router-view />
@@ -187,6 +99,7 @@
   import { useQuasar } from 'quasar';
   import { useI18n } from "vue-i18n";
   import i18n from "../plugins/i18n"; 
+  import MainMenu from '../components/MainMenu.vue';
 
   const theme = ref('Light');
   const selectedLanguage = ref('');
