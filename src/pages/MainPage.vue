@@ -1,27 +1,76 @@
 <script setup lang="ts">
-  import { computed } from 'vue';
+  import { computed, onMounted } from 'vue';
   import { useStore } from 'vuex';
-  import { useQuasar } from 'quasar'
 
+  // State
   const store = useStore();
   const users = computed(() => store.getters['User/users']);
 
-  const $q = useQuasar()
+  const getStatsQuery = (): any => {
+    return {
+      sport: 'Futebol',
+      storyId: 123,
+    };
+  };
 
-  const toggle = () => {
-    $q.dark.toggle()
-    console.log($q.dark.isActive)
+  const sports = computed((): any => {
+    return store.getters[`User/getStories`];
+  });
+
+  const getSports = () => {
+    store.dispatch('User/ActionSetSports', getStatsQuery());
+  };
+
+  onMounted(() => {
+    getSports();
+  }); 
+</script>
+
+
+<script lang="ts">
+  import { defineComponent } from 'vue';
+  import type { AxiosInstance } from 'axios';
+  import services from '../services';
+
+  declare module '@vue/runtime-core' {
+    interface ComponentCustomProperties {
+      $axios: AxiosInstance;
+    }
   }
+
+
+  export default defineComponent({
+    name: 'MainPage',
+    data () {
+      return {
+        catImage: '',
+      }
+    },
+    methods: {
+      async getDogBreeds() {
+        const { data } = await this.$axios.get('/api/tags');
+        console.log(data);
+      },
+    },
+    async mounted() {
+      await this.getDogBreeds();
+      await services.getAll();
+    },
+    
+  });
 
 </script>
 
+
 <template>
   <q-page class="flex flex-center">
-    <button @click="toggle">
-      dark mode
-    </button>
-    <h1 class="text-3xl font-bold underline px-8">
-      Hello world!
+
+    <br/>
+    <div class="col-md-12 text-center">
+      <img :src="catImage" class="img-fluid" height="500" width="450">
+    </div>
+    <h1 class="text-3xl font-bold px-8">
+      Hello world! - {{$t('SEARCH_ALL')}}
     </h1>
     <ul>
       <li 
@@ -30,7 +79,16 @@
       >
         {{user}}
       </li>
-  </ul>
+    </ul>
+    <br/>
+    <ul>
+      <li 
+        v-for="sport in sports"
+        :key="sport"    
+      >
+        {{sport}}
+      </li>
+    </ul>
 
   </q-page>
 </template>

@@ -6,24 +6,23 @@ import { Quasar } from 'quasar'
 import '@quasar/extras/material-icons/material-icons.css'
 // Import Quasar css
 import 'quasar/src/css/index.sass'
-import quasarUserOptions from "./quasar-user-options";
+import quasarOptions from "./quasar-options";
 
+import App from '@/App.vue'
 
-import App from './App.vue'
+import router from '@/router';
+import store from '@/store';
 
-// Routes
-import router from './router';
-// State
-import store from './store';
+import i18n from "./plugins/i18n";
 
-// GlobalMixin
-// import globalMixin from "./mixins/globalMixin";
-
+import axios from "@/plugins/axios";
+// import axios from "./plugins/axios";
 
 
 createApp(App)
-  .use(Quasar, quasarUserOptions)
+  .use(Quasar, quasarOptions)
+  .use(i18n)
   .use(router)
   .use(store)
-  // .use(globalMixin)
+  .use(axios)
   .mount('#app')
