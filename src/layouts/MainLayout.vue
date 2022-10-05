@@ -17,71 +17,8 @@
           icon="menu"
         />
         <q-toolbar-title>Bolao Qatar World Cup '22</q-toolbar-title>
-        <q-btn icon="person" flat round>
-          <q-menu>
-            <q-list style="min-width: 100px">
-              {{t('WELCOME')}}
-
-              <q-select
-                dense
-                v-model="selectedLanguage"
-                @update:model-value="changeLocale"
-                :options="languages"
-                filled
-              >
-                <template v-slot:selected>
-                  <q-item dense class="q-px-none">
-                    <q-item-section>
-                      <q-img
-                        img-class="rounded-borders"
-                        :src="`src/assets/flags/${selectedLanguage.flag}.png`"
-                        spinner-color="white"
-                        width="24px"
-                      />
-                    </q-item-section>
-                    <q-item-section>
-                      <q-item-label>{{ selectedLanguage.label }}</q-item-label>
-                    </q-item-section>
-                  </q-item>
-                </template>
-
-                <template v-slot:before-options>
-                  <q-item>
-                    <q-item-section>
-                      <q-item-label>{{ $t("LANGUAGE") }}</q-item-label>
-                    </q-item-section>
-                  </q-item>
-                  <q-separator inset />
-                </template>
-
-                <template v-slot:option="scope">
-                  <q-item v-bind="scope.itemProps">
-                    <q-item-section side>
-                      <q-img
-                        img-class="rounded-borders"
-                        :src="`src/assets/flags/${scope.opt.flag}.png`"
-                        spinner-color="white"
-                        width="24px"
-                      />
-                    </q-item-section>
-                    <q-item-section>
-                      <q-item-label>{{ scope.opt.label }}</q-item-label>
-                    </q-item-section>
-                  </q-item>
-                </template>               
-              </q-select>
-
-              <q-btn color="primary" icon="check" :label="`${theme} Theme`" @click="toggle" />
-
-              <q-item clickable v-close-popup to="signin">
-                <q-item-section side>
-                  <q-icon name="mdi-exit-to-app" color="negative"/>
-                </q-item-section>
-                <q-item-section>Logout</q-item-section>
-              </q-item>
-            </q-list>
-          </q-menu>
-        </q-btn>
+        <tool-bar/>
+        
       </q-toolbar>
     </q-header>
 
@@ -100,31 +37,9 @@
   import { useI18n } from "vue-i18n";
   import i18n from "../plugins/i18n"; 
   import MainMenu from '../components/MainMenu.vue';
+  import ToolBar from '../components/ToolBar.vue';
 
-  const theme = ref('Light');
-  const selectedLanguage = ref('');
   const leftDrawerOpen = ref(false);
-  const languages = ref([
-    { label: 'English', language: 'en', flag: 'united-states' },
-    { label: 'Español', language: 'es', flag: 'spain' },
-    { label: 'Portugues', language: 'pt', flag: 'portugal' }
-  ]);
-
-  const { t } = useI18n({
-    inheritLocale: true,
-    useScope: 'local'
-  })
-
-  const changeLocale = (locale:any) => {
-    console.log("🚀 ~ file: MainLayout.vue ~ line 134 ~ changeLocale ~ locale", locale)
-    i18n.global.locale.value = locale.language;
-  }
-
-  const toggle = () => {
-    $q.dark.toggle();
-    $q.dark.isActive ? theme.value = 'Dark' : theme.value = 'Light';
-    console.log($q.dark.isActive);
-  }
 
   const $q = useQuasar()
   // get status
