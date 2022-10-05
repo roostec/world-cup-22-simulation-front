@@ -16,7 +16,7 @@
         <q-card-section class="q-gutter-sm">
           <q-input
             v-model="form.email"
-            label="Email"
+            :label="$t('EMAIL')"
             type="email"
             lazy-rules
             :rules="isEmail"
@@ -31,7 +31,7 @@
             v-model="form.password"
             lazy-rules
             :rules="isRequired"
-            label="Senha"
+            :label="$t('PASSWORD')"
             color="primary"
             label-color="primary"
             :type="showPassword ? 'text' : 'password'"

@@ -8,7 +8,7 @@
         <q-card-section class="q-gutter-sm">
           <q-input
             v-model="form.email"
-            label="Email"
+            :label="$t('EMAIL')"
             type="email"
             :rules="isEmail"
             lazy-rules
@@ -22,7 +22,7 @@
         </q-card-section>
         <q-card-section class="q-pt-none">
           <q-btn
-            label="Enviar"
+            :label="$t('SEND')"
             color="primary"
             class="full-width q-py-md q-mb-md"
             no-caps

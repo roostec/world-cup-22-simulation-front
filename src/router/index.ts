@@ -36,13 +36,14 @@ export const routes = [
       import(/* webpackChunkName: "main" */ "@/layouts/MainLayout.vue"),
     children: [
       {
-        path: "main",
-        name: "Main",
+        path: "dashboard",
+        name: "Dashboard",
         component: () =>
           import(/* webpackChunkName: "main" */ "@/pages/MainPage.vue"),
       },
     ],
   },
+  { path: '/:pathMatch(.*)*', name: 'NotFound', component: () => import("@/layouts/404Layout.vue") },
 ];
 
 

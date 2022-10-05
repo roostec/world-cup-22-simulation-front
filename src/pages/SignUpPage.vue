@@ -8,7 +8,7 @@
         <q-card-section class="q-gutter-sm">          
           <q-input
             v-model="form.name"
-            label="Nome"
+            :label="$t('NAME')"
             type="text"
             lazy-rules
             :rules="isRequired"
@@ -22,7 +22,7 @@
           <q-input
             autocomplete="false"
             v-model="form.email"
-            label="Email"
+            :label="$t('EMAIL')"
             type="email"
             lazy-rules
             :rules="isEmail"
@@ -38,7 +38,7 @@
             v-model="form.password"
             lazy-rules
             :rules="isRequired"
-            label="Senha"
+            :label="$t('PASSWORD')"
             color="primary"
             label-color="primary"
             :type="showPassword ? 'text' : 'password'"
@@ -104,7 +104,7 @@
   const showPassword = ref(false);
 
   const isRequired = [
-    (v: string) => (v && v.length > 0) ||  t('PLEASE_TYPE_SOMETHING')
+    (v: string) => (v && v.length > 0) || t('PLEASE_TYPE_SOMETHING')
   ]
 
   const isEmail = [
