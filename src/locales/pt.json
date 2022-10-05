@@ -1,5 +1,14 @@
 {
   "SEARCH_ALL": "Procurar todos",
   "WELCOME": "Bem-vindo",
-  "LANGUAGE": "Lingua"
+  "LANGUAGE": "Lingua",
+  "EMAIL": "E-mail",
+  "PASSWORD": "Senha",
+  "LOGIN": "Login",
+  "CREATE_ACCOUNT": "Criar Conta",
+  "REQUIRED_EMAIL": "Email é obrigatório",
+  "INVALID_EMAIL": "Email inválido",
+  "PLEASE_TYPE_SOMETHING": "Este campo é obrigatório",
+  "PASS_6_CARACTER": "Senha precisa ter pelo menos 6 caracteres",
+  "FORGOT_PASSWORD": "Esqueceu a senha?"
 }

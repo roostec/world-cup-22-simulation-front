@@ -4,27 +4,27 @@ import authGuard from "./authGuard";
 export const routes = [
   {
     path: '',
-    component: () => import('../layouts/AuthLayout.vue'),
+    component: () => import('@/layouts/AuthLayout.vue'),
     children: [
       { path: "", redirect: "signin" },
       {
         path: "signin",
         name: "SignIn",
         component: () =>
-          import(/* webpackChunkName: "auth" */ "../pages/SignInPage.vue"),
+          import(/* webpackChunkName: "auth" */ "@/pages/SignInPage.vue"),
       },
       {
         path: "signup",
         name: "SignUp",
         component: () =>
-          import(/* webpackChunkName: "auth" */ "../pages/SignUpPage.vue"),
+          import(/* webpackChunkName: "auth" */ "@/pages/SignUpPage.vue"),
       },
       {
         path: "forgotpassword",
         name: "ForgotPassword",
         component: () =>
           import(
-            /* webpackChunkName: "auth" */ "../pages/ForgotPasswordPage.vue"
+            /* webpackChunkName: "auth" */ "@/pages/ForgotPasswordPage.vue"
           ),
       },
     ],
@@ -33,13 +33,13 @@ export const routes = [
   {
     path: "",
     component: () =>
-      import(/* webpackChunkName: "main" */ "../layouts/MainLayout.vue"),
+      import(/* webpackChunkName: "main" */ "@/layouts/MainLayout.vue"),
     children: [
       {
         path: "main",
         name: "Main",
         component: () =>
-          import(/* webpackChunkName: "main" */ "../pages/MainPage.vue"),
+          import(/* webpackChunkName: "main" */ "@/pages/MainPage.vue"),
       },
     ],
   },

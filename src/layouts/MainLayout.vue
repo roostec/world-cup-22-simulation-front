@@ -30,7 +30,7 @@
                 filled
               >
                 <template v-slot:selected>
-                  <q-item dense class="q-px-6">
+                  <q-item dense class="q-px-none">
                     <q-item-section>
                       <q-img
                         img-class="rounded-borders"
@@ -38,6 +38,9 @@
                         spinner-color="white"
                         width="24px"
                       />
+                    </q-item-section>
+                    <q-item-section>
+                      <q-item-label>{{ selectedLanguage.label }}</q-item-label>
                     </q-item-section>
                   </q-item>
                 </template>

@@ -5,10 +5,13 @@ import "@quasar/extras/material-icons-outlined/material-icons-outlined.css";
 import "@quasar/extras/material-icons-round/material-icons-round.css";
 import "@quasar/extras/material-icons-sharp/material-icons-sharp.css";
 import "@quasar/extras/mdi-v6/mdi-v6.css";
+import { Notify } from 'quasar'
 
 // To be used on app.use(Quasar, { ... })
 export default {
   config: {},
-  plugins: {},
+  plugins: {
+    Notify
+  },
   // lang: lang,
 };

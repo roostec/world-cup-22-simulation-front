@@ -1,60 +1,56 @@
 <template>
-  <q-page class="flex flex-center bg-grey-1">
-    <q-form @submit="onLogin">
-      <q-card flat bordered style="width: 448px" class="q-pa-md">
+  <q-page class="flex flex-center sm:absolute sm:left-32">
+    <q-form @submit.prevent.stop="onCreate" class="glass flex justify-center items-center w-full">
+      <q-card flat class="q-pa-md bg-transparent w-11/12 sm:w-[448px]">
         <q-card-section>
           <div class="text-h5 text-center">Criar conta</div>
         </q-card-section>
-        <q-card-section class="q-gutter-sm">
-          <q-select
-            outlined
-            v-model="form.secretary"
-            :options="secretaries"
-            label="Secretaria"
-            lazy-rules
-          >
-            <template v-slot:prepend>
-              <q-icon name="mdi-domain" class="cursor-pointer" />
-            </template>
-          </q-select>
+        <q-card-section class="q-gutter-sm">          
           <q-input
-            outlined
             v-model="form.name"
             label="Nome"
             type="text"
             lazy-rules
+            :rules="isRequired"
+            color="primary"
+            label-color="primary"
           >
             <template v-slot:prepend>
-              <q-icon name="mdi-account-outline" class="cursor-pointer" />
+              <q-icon name="mdi-account-outline" color="primary" class="cursor-pointer" />
             </template>
           </q-input>
           <q-input
-            outlined
             autocomplete="false"
             v-model="form.email"
             label="Email"
             type="email"
             lazy-rules
+            :rules="isEmail"
+            color="primary"
+            label-color="primary"
           >
             <template v-slot:prepend>
-              <q-icon name="mdi-email-outline" class="cursor-pointer" />
+              <q-icon name="mdi-email-outline" color="primary" class="cursor-pointer" />
             </template>
           </q-input>
           <q-input
-            outlined
             autocomplete="false"
             v-model="form.password"
             lazy-rules
+            :rules="isRequired"
             label="Senha"
+            color="primary"
+            label-color="primary"
             :type="showPassword ? 'text' : 'password'"
           >
             <template v-slot:prepend>
-              <q-icon name="mdi-form-textbox-password" class="cursor-pointer" />
+              <q-icon name="mdi-form-textbox-password" color="primary" class="cursor-pointer" />
             </template>
             <template v-slot:append>
               <q-icon
                 :name="showPassword ? 'mdi-eye-off-outline' : 'mdi-eye-outline'"
                 class="cursor-pointer"
+                color="primary"
                 @click="showPassword = !showPassword"
               />
             </template>
@@ -84,90 +80,43 @@
   </q-page>
 </template>
 
-<script lang="ts">
-// import accountMixin from "../mixins/accountMixin";
-export default {
-  name: "SignUpPage",
-  // mixins: [accountMixin],
-  data() {
-    return {
-      form: {
-        secretary: "",
-        name: "",
-        email: "",
-        password: "",
-      },
-      showPassword: false,
-      secretaries: [
-        { label: "Secretaria de Saúde", value: "secretary_health" },
-        { label: "Secretaria de Educação", value: "secretary_education" },
-        { label: "Secretaria de Cultura", value: "secretary_culture" },
-        { label: "Secretaria de Esporte", value: "secretary_sport" },
-        { label: "Secretaria de Turismo", value: "secretary_tourism" },
-        {
-          label: "Secretaria de Desenvolvimento Econômico",
-          value: "secretary_economic",
-        },
-        {
-          label: "Secretaria de Desenvolvimento Social",
-          value: "secretary_social",
-        },
-        {
-          label: "Secretaria de Desenvolvimento Urbano",
-          value: "secretary_urban",
-        },
-        {
-          label: "Secretaria de Meio Ambiente",
-          value: "secretary_environment",
-        },
-        { label: "Secretaria de Agricultura", value: "secretary_agriculture" },
-        {
-          label: "Secretaria de Administração",
-          value: "secretary_administration",
-        },
-        { label: "Secretaria de Finanças", value: "secretary_finance" },
-        { label: "Secretaria de Planejamento", value: "secretary_planning" },
-        { label: "Secretaria de Transporte", value: "secretary_transport" },
-        { label: "Secretaria de Obras", value: "secretary_works" },
-        {
-          label: "Secretaria de Comunicação",
-          value: "secretary_communication",
-        },
-        {
-          label: "Secretaria de Tecnologia da Informação",
-          value: "secretary_information_technology",
-        },
-        {
-          label: "Secretaria de Segurança Pública",
-          value: "secretary_public_security",
-        },
-        {
-          label: "Secretaria de Defesa Civil",
-          value: "secretary_civil_defense",
-        },
-        { label: "Secretaria de Trânsito", value: "secretary_traffic" },
-        {
-          label: "Secretaria de Desenvolvimento Rural",
-          value: "secretary_rural",
-        },
-        {
-          label: "Secretaria de Desenvolvimento Industrial",
-          value: "secretary_industrial",
-        },
-        {
-          label: "Secretaria de Desenvolvimento Agrário",
-          value: "secretary_agrarian",
-        },
-      ],
-    };
-  },
-  methods: {
-    async onLogin() {
-      // this.logIn();
-      console.log('login')
-    },
-  },
-};
+<script setup lang="ts">
+  import { ref } from 'vue';
+  import { useQuasar } from 'quasar';
+  import { useI18n } from "vue-i18n";
+  import UseNotify from '../composables/UseNotify'
+
+  const $q = useQuasar();
+  
+  const {notify} = UseNotify()
+
+  const form = ref({
+    name: '',
+    email: '',
+    password: ''
+  })
+
+  const { t } = useI18n({
+    inheritLocale: true,
+    useScope: 'local'
+  })
+
+  const showPassword = ref(false);
+
+  const isRequired = [
+    (v: string) => (v && v.length > 0) ||  t('PLEASE_TYPE_SOMETHING')
+  ]
+
+  const isEmail = [
+    (v: string) => !!v || t('REQUIRED_EMAIL'),
+    (v: string) => /.+@.+\..+/.test(v) || t('INVALID_EMAIL')
+  ]
+
+  const onCreate = () => {
+    // this.logIn();
+    notify('negative', 'Erro', 'Erro ao criar conta');
+    console.log(form.value)
+  }
 </script>
 
 <style></style>

@@ -8,15 +8,11 @@ import '@quasar/extras/material-icons/material-icons.css'
 import 'quasar/src/css/index.sass'
 import quasarOptions from "./quasar-options";
 
-import App from '@/App.vue'
-
+import App from '@/App.vue';
 import router from '@/router';
 import store from '@/store';
-
 import i18n from "./plugins/i18n";
-
 import axios from "@/plugins/axios";
-// import axios from "./plugins/axios";
 
 
 createApp(App)

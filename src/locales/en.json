@@ -1,5 +1,14 @@
 {
   "SEARCH_ALL": "Search all",
   "WELCOME": "Welcome",
-  "LANGUAGE": "Language"
+  "LANGUAGE": "Language",
+  "EMAIL": "Email",
+  "PASSWORD": "Password",
+  "LOGIN": "Log in",
+  "CREATE_ACCOUNT": "Create Account",
+  "REQUIRED_EMAIL": "Email Required",
+  "INVALID_EMAIL": "Invalid Email",
+  "PLEASE_TYPE_SOMETHING": "Please type something",
+  "PASS_6_CARACTER": "Password needs to have 6 caracters, at least",
+  "FORGOT_PASSWORD": "Forgot Password?"
 }

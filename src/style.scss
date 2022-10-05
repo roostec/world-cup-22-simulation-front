@@ -3,26 +3,18 @@
 @tailwind utilities;
 /////////////////////////////////////////////////
 
+
 .body--light {
-  color: pink!important;
+  color: #9A1032!important;
 }
 
 .body--dark {
   color: orange!important;
 }
 
-
-// style.scss
-[data-theme="dark"] {
-  --bg-color1: #121416;
-  --font-color: #f4f4f4;
-}
-[data-theme="light"] {
-  --bg-color1: #f4f4f4;
-  --font-color: #121416;
-}
-
-body {
-  background-color: var(--bg-color1);
-  color: var(--font-color);
+.glass{
+  box-shadow: 0 0 1rem 0 rgba(0, 0, 0, .4); 
+  // border-radius: 5px;
+  background-color: rgba(255, 255, 255, .45);    
+  backdrop-filter: blur(5px);
 }

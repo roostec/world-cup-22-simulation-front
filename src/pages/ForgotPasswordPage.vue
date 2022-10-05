@@ -1,36 +1,22 @@
 <template>
-  <q-page class="flex flex-center bg-grey-1">
-    <q-form @submit="onForgotPassword">
-      <q-card flat bordered style="width: 448px" class="q-pa-md">
+  <q-page class="flex flex-center sm:absolute sm:left-32">
+    <q-form @submit.prevent.stop="onForgotPassword" class="glass flex justify-center items-center w-full">
+      <q-card flat class="q-pa-md bg-transparent w-11/12 sm:w-[448px]">
         <q-card-section>
           <div class="text-h5 text-center">Recupera senha</div>
         </q-card-section>
         <q-card-section class="q-gutter-sm">
           <q-input
-            outlined
             v-model="form.email"
             label="Email"
             type="email"
-            :rules="[isEmail]"
+            :rules="isEmail"
             lazy-rules
+            color="primary"
+            label-color="primary"
           >
             <template v-slot:prepend>
-              <q-icon name="mdi-email-outline" class="cursor-pointer" />
-            </template>
-          </q-input>
-          <div class="text-center" style="margin-top: -5px">Ou</div>
-          <q-input
-            outlined
-            v-model="form.cpf"
-            label="CPF"
-            mask="###.###.###-##"
-            lazy-rules
-          >
-            <template v-slot:prepend>
-              <q-icon
-                name="mdi-card-account-details-outline"
-                class="cursor-pointer"
-              />
+              <q-icon name="mdi-email-outline" color="primary" class="cursor-pointer" />
             </template>
           </q-input>
         </q-card-section>
@@ -60,21 +46,30 @@
   </q-page>
 </template>
 
-<script lang="ts">
-// import accountMixin from "../mixins/accountMixin";
-export default {
-  name: "ForgotPasswordPage",
-  // mixins: [accountMixin],
-  data() {
-    return {
-      form: {
-        email: "",
-        cpf: "",
-      },
-      loadingForgotPassword: false,
-    };
-  },
-};
+<script setup lang="ts">
+  import { ref } from "vue";
+  import { useI18n } from "vue-i18n";
+
+  const { t } = useI18n({
+    inheritLocale: true,
+    useScope: 'local'
+  })
+
+  const form = ref({
+    email: ""
+  });
+
+  const loadingForgotPassword = ref(false);
+
+  const onForgotPassword = () => {
+    console.log('forgot password');
+  }
+
+  const isEmail = [
+    (v: string) => !!v || t('REQUIRED_EMAIL'),
+    (v: string) => /.+@.+\..+/.test(v) || t('INVALID_EMAIL')
+  ]
+
 </script>
 
 <style></style>
