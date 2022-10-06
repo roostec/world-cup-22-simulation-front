@@ -1,6 +1,7 @@
 <script setup lang="ts">
-  import { computed, onMounted } from 'vue';
+  import { ref, computed, onMounted } from 'vue';
   import { useStore } from 'vuex';
+  import services from '../services';
 
   // State
   const store = useStore();
@@ -21,50 +22,20 @@
     store.dispatch('User/ActionSetSports', getStatsQuery());
   };
 
-  onMounted(() => {
-    getSports();
+  onMounted(async () => {
+    await getSports();
+    await services.getAll();
   }); 
-</script>
 
+  // Methods
+  const catImage = ref('');  
 
-<script lang="ts">
-  import { defineComponent } from 'vue';
-  import type { AxiosInstance } from 'axios';
-  import services from '../services';
-
-  declare module '@vue/runtime-core' {
-    interface ComponentCustomProperties {
-      $axios: AxiosInstance;
-    }
-  }
-
-
-  export default defineComponent({
-    name: 'MainPage',
-    data () {
-      return {
-        catImage: '',
-      }
-    },
-    methods: {
-      async getDogBreeds() {
-        const { data } = await this.$axios.get('/api/tags');
-        console.log(data);
-      },
-    },
-    async mounted() {
-      await this.getDogBreeds();
-      await services.getAll();
-    },
-    
-  });
 
 </script>
 
 
 <template>
   <q-page class="flex flex-center">
-
     <br/>
     <div class="col-md-12 text-center">
       <img :src="catImage" class="img-fluid" height="500" width="450">
@@ -77,7 +48,7 @@
         v-for="user in users"
         :key="user"    
       >
-        {{user}}
+        {{user}} **
       </li>
     </ul>
     <br/>
@@ -86,10 +57,9 @@
         v-for="sport in sports"
         :key="sport"    
       >
-        {{sport}}
+        {{sport}} --
       </li>
     </ul>
 
   </q-page>
 </template>
-

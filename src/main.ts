@@ -12,13 +12,12 @@ import App from '@/App.vue';
 import router from '@/router';
 import store from '@/store';
 import i18n from "./plugins/i18n";
-import axios from "@/plugins/axios";
-
+// import api from "./plugins/axios";
 
 createApp(App)
   .use(Quasar, quasarOptions)
   .use(i18n)
   .use(router)
   .use(store)
-  .use(axios)
+  // .use(api)
   .mount('#app')
