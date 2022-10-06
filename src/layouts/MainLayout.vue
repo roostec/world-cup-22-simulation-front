@@ -1,7 +1,7 @@
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-header
-      bordered
+      :bordered="!$q.dark.isActive ? true : false"
       :class="{
         'bg-primary': $q.dark.isActive,
         'bg-white text-black': !$q.dark.isActive,
@@ -15,14 +15,32 @@
           @click="leftDrawerOpen = !leftDrawerOpen"
           aria-label="Menu"
           icon="menu"
+          :color="$q.dark.isActive ? 'gray-300' : 'primary'"
         />
-        <q-toolbar-title>Bolao Qatar World Cup '22</q-toolbar-title>
+        <q-toolbar-title class="flex items-center">
+          <div class="w-[24px] mr-3">
+            <q-img
+              class="saturate-50"
+              src="src/assets/ico/world-cup-qatar-icon.png"
+              width="24px"
+              spinner-color="primary"
+              spinner-size="82px"
+            />
+          </div>
+          <p :class="$q.dark.isActive ? 'text-gray-300' : 'text-primary'">Bolao Qatar World Cup '22</p>
+         
+        </q-toolbar-title>
         <tool-bar/>
         
       </q-toolbar>
     </q-header>
 
-    <q-drawer v-model="leftDrawerOpen" show-if-above bordered class="bg-grey-2">
+    <q-drawer
+      v-model="leftDrawerOpen"
+      show-if-above 
+      :bordered="$q.dark.isActive ? false : true" 
+      :class="$q.dark.isActive ? 'bg-secondary' : 'bg-grey-2'"
+    >
       <main-menu/>      
     </q-drawer>
     <q-page-container>

@@ -1,11 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Viga&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 /////////////////////////////////////////////////
 
+body{
+  // @apply h-14 bg-gradient-to-r from-cyan-900 to-blue-500;
+  -webkit-font-smoothing: subpixel-antialiased;
+  font-family: 'Viga', sans-serif;
+}
+
+.viga{
+  font-family: 'Viga', sans-serif;
+}
 
 .body--light {
   color: #9A1032!important;
+}
+
+body.body--dark{
+  background-color: #282a36;
 }
 
 .body--dark {
