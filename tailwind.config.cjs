@@ -19,6 +19,9 @@ module.exports = {
       },
       colors: {
         primary: '#9A1032',
+        gold: '#FFD700',
+        silver: '#A9A9A9',
+        bronze: '#CD7F32',
       }
     },
     

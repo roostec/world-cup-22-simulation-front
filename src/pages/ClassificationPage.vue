@@ -19,15 +19,19 @@
               v-for="col in props.cols"
               :key="col.name"
               :props="props"
-              class="text-italic text-purple"
+              class="text-italic text-primary"
             >
               {{ col.label }}
+              <q-tooltip  class="bg-primary" anchor="top middle" self="center middle">
+                {{col.name}}
+              </q-tooltip>
             </q-th>
           </q-tr>
         </template>
 
         <template v-slot:body="props">
         <q-tr :props="props">
+
           <q-td auto-width>
             <div v-if="props.rowIndex < 3">
               <q-badge :color="props.rowIndex < 2 ? props.rowIndex === 0 ? 'green' : 'red' : 'bronze' ">
@@ -38,8 +42,18 @@
               # {{props.rowIndex + 1 > 10 ? props.rowIndex + 1 : '0' + (props.rowIndex + 1)}}
             </div>
           </q-td>
+
           <q-td key="name" :props="props">
-            <p class="text-primary">{{ props.row.name }}</p>              
+            <div class="flex items-center gap-2">
+              <q-img
+                src="https://app.maisbolao.com.br/assets/img/usuario.png"
+                width="40px"
+                spinner-color="primary"
+                spinner-size="82px"
+                class="rounded-full"
+              />
+              <p class="text-primary text-lg">{{ props.row.name }}</p>             
+            </div>
           </q-td>
           <q-td key="TOTAL" :props="props">
             <!-- <q-badge color="green"> -->
@@ -124,7 +138,7 @@ const columns = [
     align: 'left',
     field: row => row.name,
     format: val => `${val}`,
-    sortable: true
+    // sortable: true
   },
   // { name: 'TOTAL', align: 'center', label: 'TOTAL', field: 'total', sortable: true },
   { name: 'TOTAL', align: 'center', label: 'TOTAL', field: 'total' },
@@ -209,9 +223,13 @@ const rows = [
 
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 td:nth-child(3) {
     background-color: #c1f4cd !important
+}
+
+tr {
+  height: 63px;
 }
 
 </style>
