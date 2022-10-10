@@ -1,22 +1,83 @@
 <template>
   <q-page class="flex flex-center">
-    <div class="q-pa-md">
+    <div class="q-pa-md w-full max-w-[786px]">
       <q-table
         title="Treats"
         :rows="rows"
         :columns="columns"
         row-key="name"
+        :pagination.sync="pagination"
+        hide-bottom
+        :filter="filter"
         :visible-columns="visibleColumns"
       >
-        <template v-slot:top>
-          <img
-            style="height: 50px; width: 50px"
-            src="https://cdn.quasar.dev/logo-v2/svg/logo.svg"
+      
+        <template v-slot:header="props">
+          <q-tr :props="props">
+            <q-th auto-width />
+            <q-th
+              v-for="col in props.cols"
+              :key="col.name"
+              :props="props"
+              class="text-italic text-purple"
+            >
+              {{ col.label }}
+            </q-th>
+          </q-tr>
+        </template>
+
+        <template v-slot:body="props">
+        <q-tr :props="props">
+          <q-td auto-width>
+            <div v-if="props.rowIndex < 3">
+              <q-badge :color="props.rowIndex < 2 ? props.rowIndex === 0 ? 'green' : 'red' : 'bronze' ">
+                # {{props.rowIndex + 1 > 10 ? props.rowIndex + 1 : '0' + (props.rowIndex + 1)}}
+              </q-badge>
+            </div>
+            <div v-else>
+              # {{props.rowIndex + 1 > 10 ? props.rowIndex + 1 : '0' + (props.rowIndex + 1)}}
+            </div>
+          </q-td>
+          <q-td key="name" :props="props">
+            <p class="text-primary">{{ props.row.name }}</p>              
+          </q-td>
+          <q-td key="TOTAL" :props="props">
+            <!-- <q-badge color="green"> -->
+            <p class="text-lg">{{ props.row.calories }}</p>             
+            <!-- </q-badge> -->
+          </q-td>
+          <q-td
+            v-for="col in props.cols.splice(2,props.cols.length)"
+            :key="col.name"
+            :props="props"
           >
+            {{ col.value }}
+          </q-td>
+        </q-tr>
+        <q-tr v-show="props.expand" :props="props">
+          <q-td colspan="100%">
+            <div class="text-left">This is expand slot for row above: {{ props.row.name }}.</div>
+          </q-td>
+        </q-tr>
+      </template>
+
+        <template v-slot:top>
+          <q-img
+            src="src/assets/ico/world-cup-trophy-real-icon.png"
+            spinner-color="primary"
+            spinner-size="82px"
+            width="50px"
+          />
 
           <q-space />
 
-          <q-select
+          <q-input borderless dense debounce="300" v-model="filter" placeholder="Search">
+          <template v-slot:append>
+            <q-icon name="search" />
+          </template>
+        </q-input>
+
+          <!-- <q-select
             v-model="visibleColumns"
             multiple
             outlined
@@ -29,7 +90,7 @@
             option-value="name"
             options-cover
             style="min-width: 150px"
-          />
+          /> -->
         </template>
 
       </q-table>
@@ -37,31 +98,48 @@
   </q-page>
 </template>
 
-<script>
+<script setup lang="ts">
 import { ref } from 'vue'
+
+const pagination = ref({
+  rowsPerPage: 30 // current rows per page being displayed
+})
+
+const filter = ref('');
+
+const visibleColumns = ref([
+  'TOTAL', 
+  'Acertou o placar', 
+  'Gols do time vencedor',
+  'Saldo de gols',
+  'Gols do Time Perdedor',
+  'Acertou vencedor'
+])
 
 const columns = [
   {
     name: 'name',
     required: true,
-    label: 'Dessert (100g serving)',
+    label: 'Jogador',
     align: 'left',
     field: row => row.name,
     format: val => `${val}`,
     sortable: true
   },
-  { name: 'calories', align: 'center', label: 'Calories', field: 'calories', sortable: true },
-  { name: 'fat', label: 'Fat (g)', field: 'fat', sortable: true },
-  { name: 'carbs', label: 'Carbs (g)', field: 'carbs' },
-  { name: 'protein', label: 'Protein (g)', field: 'protein' },
-  { name: 'sodium', label: 'Sodium (mg)', field: 'sodium' },
-  { name: 'calcium', label: 'Calcium (%)', field: 'calcium', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) },
-  { name: 'iron', label: 'Iron (%)', field: 'iron', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) }
+  // { name: 'TOTAL', align: 'center', label: 'TOTAL', field: 'total', sortable: true },
+  { name: 'TOTAL', align: 'center', label: 'TOTAL', field: 'total' },
+  { name: 'Acertou o placar', label: 'AP', field: 'calories' },
+  { name: 'Gols do time vencedor', points:1, label: 'GV', field: 'fat' },
+  { name: 'Saldo de gols', points:1, label: 'SG', field: 'carbs' },
+  { name: 'Gols do Time Perdedor', points:1, label: 'GP', field: 'protein' },
+  { name: 'Acertou vencedor', points:1, label: 'AV', field: 'sodium' },
+  // { name: 'iron', points:1, label: 'Iron (%)', field: 'iron', sortable: true, sort: (a, b) => parseInt(a, 10) - parseInt(b, 10) }
 ]
 
 const rows = [
   {
-    name: 'Frozen Yogurt',
+    name: 'Daniel Kogut',
+    total: 159,
     calories: 159,
     fat: 6.0,
     carbs: 24,
@@ -71,7 +149,8 @@ const rows = [
     iron: '1%'
   },
   {
-    name: 'Ice cream sandwich',
+    name: 'Rafael Apeni',
+    total: 237,
     calories: 237,
     fat: 9.0,
     carbs: 37,
@@ -81,7 +160,8 @@ const rows = [
     iron: '1%'
   },
   {
-    name: 'Eclair',
+    name: 'Rafinha',
+    total: 262,
     calories: 262,
     fat: 16.0,
     carbs: 23,
@@ -91,7 +171,8 @@ const rows = [
     iron: '7%'
   },
   {
-    name: 'Cupcake',
+    name: 'Rubens',
+    total: 305,
     calories: 305,
     fat: 3.7,
     carbs: 67,
@@ -101,74 +182,36 @@ const rows = [
     iron: '8%'
   },
   {
-    name: 'Gingerbread',
-    calories: 356,
-    fat: 16.0,
-    carbs: 49,
-    protein: 3.9,
-    sodium: 327,
-    calcium: '7%',
-    iron: '16%'
+    name: 'Fernando',
+    total: 305,
+    calories: 305,
+    fat: 3.7,
+    carbs: 67,
+    protein: 4.3,
+    sodium: 413,
+    calcium: '3%',
+    iron: '8%'
   },
   {
-    name: 'Jelly bean',
-    calories: 375,
-    fat: 0.0,
-    carbs: 94,
-    protein: 0.0,
-    sodium: 50,
-    calcium: '0%',
-    iron: '0%'
+    name: 'Yvan',
+    total: 305,
+    calories: 305,
+    fat: 3.7,
+    carbs: 67,
+    protein: 4.3,
+    sodium: 413,
+    calcium: '3%',
+    iron: '8%'
   },
-  {
-    name: 'Lollipop',
-    calories: 392,
-    fat: 0.2,
-    carbs: 98,
-    protein: 0,
-    sodium: 38,
-    calcium: '0%',
-    iron: '2%'
-  },
-  {
-    name: 'Honeycomb',
-    calories: 408,
-    fat: 3.2,
-    carbs: 87,
-    protein: 6.5,
-    sodium: 562,
-    calcium: '0%',
-    iron: '45%'
-  },
-  {
-    name: 'Donut',
-    calories: 452,
-    fat: 25.0,
-    carbs: 51,
-    protein: 4.9,
-    sodium: 326,
-    calcium: '2%',
-    iron: '22%'
-  },
-  {
-    name: 'KitKat',
-    calories: 518,
-    fat: 26.0,
-    carbs: 65,
-    protein: 7,
-    sodium: 54,
-    calcium: '12%',
-    iron: '6%'
-  }
 ]
 
-export default {
-  setup () {
-    return {
-      visibleColumns: ref([ 'calories', 'desc', 'fat', 'carbs', 'protein', 'sodium', 'calcium', 'iron' ]),
-      columns,
-      rows
-    }
-  }
-}
+
+
 </script>
+
+<style lang="scss">
+td:nth-child(3) {
+    background-color: #c1f4cd !important
+}
+
+</style>
