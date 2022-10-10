@@ -21,8 +21,7 @@ const props = defineProps({
   }
 });
 
-const homeTeamScore = ref(null);
-const visitTeamScore = ref(null);
+const matchInfo = ref(props.match);
 
 </script>
 
@@ -30,7 +29,7 @@ const visitTeamScore = ref(null);
   <q-card-section class="flex justify-between">
 
     <div class="warnings">
-      <div v-if="props.match.home_score != null">
+      <div v-if="matchInfo.home_score != null">
         <q-badge color="success" text-color="white" label="v" />
         Salvo
       </div>
@@ -44,13 +43,13 @@ const visitTeamScore = ref(null);
       <div class="teams flex gap-3 items-center">
         <div class="team home-team flex gap-3">
           <div class="name text-right">
-            <div class="team-initials">{{props.match.home_initials.toUpperCase()}}</div>
-            <div class="team-name">{{props.match.home_team}}</div>
+            <div class="team-initials">{{matchInfo.home_initials.toUpperCase()}}</div>
+            <div class="team-name">{{matchInfo.home_team}}</div>
           </div>
           <div class="flag">
             <!-- src="https://app.maisbolao.com.br/arquivos/time/6aebfd23-090a-4925-8f57-2f8a596bcaf2.png" -->
             <q-img
-              :src="`src/assets/img/flags/${props.match.home_initials}.png`"
+              :src="`src/assets/img/flags/${matchInfo.home_initials}.png`"
               width="44px"
               spinner-color="primary"
               spinner-size="82px"
@@ -58,7 +57,7 @@ const visitTeamScore = ref(null);
           </div>
           <q-input
             filled
-            v-model.number="props.match.home_score"
+            v-model.number="matchInfo.home_score"
             type="number"
             class="w-[64px]"
             dense
@@ -73,7 +72,7 @@ const visitTeamScore = ref(null);
         <div class="team visiting-team flex gap-3">
           <q-input
             filled
-            v-model.number="props.match.away_score"
+            v-model.number="matchInfo.away_score"
             type="number"
             class="w-[64px]"
             dense
@@ -82,15 +81,15 @@ const visitTeamScore = ref(null);
           <div class="flag">
             <!-- src="https://app.maisbolao.com.br/arquivos/time/441ff244-6feb-47af-b50b-057f724efc2f.png" -->
             <q-img
-              :src="`src/assets/img/flags/${props.match.away_initials}.png`"
+              :src="`src/assets/img/flags/${matchInfo.away_initials}.png`"
               width="44px"
               spinner-color="primary"
               spinner-size="82px"
             />
           </div>
           <div class="name">
-            <div class="team-initials">{{props.match.away_initials.toUpperCase()}}</div>
-            <div class="team-name">{{props.match.away_team}}</div>
+            <div class="team-initials">{{matchInfo.away_initials.toUpperCase()}}</div>
+            <div class="team-name">{{matchInfo.away_team}}</div>
           </div>
         </div>
       </div>
@@ -101,21 +100,21 @@ const visitTeamScore = ref(null);
             color="blue"
             text-color="white"
             icon="calendar_month"
-            :label="props.match.date"
+            :label="matchInfo.date"
           />
           <q-chip
             square
             color="blue"
             text-color="white"
             icon="alarm"
-            :label="props.match.time"
+            :label="matchInfo.time"
           />
           <q-chip
             square
             color="blue"
             text-color="white"
             icon="place"
-            :label="props.match.location"
+            :label="matchInfo.location"
           />
         </div>
       </div>
