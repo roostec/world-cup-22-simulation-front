@@ -37,6 +37,10 @@ export default [
         name: "Dashboard",
         component: () =>
           import(/* webpackChunkName: "main" */ "@/pages/MainPage.vue"),
+        meta: {
+          requiresAuth: true,
+          label: '',
+        },
       },
       {
         path: "classification",

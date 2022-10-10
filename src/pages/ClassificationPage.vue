@@ -1,38 +1,40 @@
 <template>
-  <div class="q-pa-md">
-    <q-table
-      title="Treats"
-      :rows="rows"
-      :columns="columns"
-      row-key="name"
-      :visible-columns="visibleColumns"
-    >
-      <template v-slot:top>
-        <img
-          style="height: 50px; width: 50px"
-          src="https://cdn.quasar.dev/logo-v2/svg/logo.svg"
-        >
+  <q-page class="flex flex-center">
+    <div class="q-pa-md">
+      <q-table
+        title="Treats"
+        :rows="rows"
+        :columns="columns"
+        row-key="name"
+        :visible-columns="visibleColumns"
+      >
+        <template v-slot:top>
+          <img
+            style="height: 50px; width: 50px"
+            src="https://cdn.quasar.dev/logo-v2/svg/logo.svg"
+          >
 
-        <q-space />
+          <q-space />
 
-        <q-select
-          v-model="visibleColumns"
-          multiple
-          outlined
-          dense
-          options-dense
-          :display-value="$q.lang.table.columns"
-          emit-value
-          map-options
-          :options="columns"
-          option-value="name"
-          options-cover
-          style="min-width: 150px"
-        />
-      </template>
+          <q-select
+            v-model="visibleColumns"
+            multiple
+            outlined
+            dense
+            options-dense
+            :display-value="$q.lang.table.columns"
+            emit-value
+            map-options
+            :options="columns"
+            option-value="name"
+            options-cover
+            style="min-width: 150px"
+          />
+        </template>
 
-    </q-table>
-  </div>
+      </q-table>
+    </div>
+  </q-page>
 </template>
 
 <script>
