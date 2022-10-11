@@ -80,11 +80,15 @@
 </template>
 
 <script setup lang="ts">
-  import {ref} from 'vue';
+  import {ref, computed} from 'vue';
   import { useI18n } from "vue-i18n";
   import { useStore } from 'vuex';
   import services from '../services';
   import { useRouter, useRoute } from 'vue-router'
+
+  // State
+  const store = useStore();
+  
   const Router = useRouter();
   const Route = useRoute();
 
@@ -94,7 +98,7 @@
     email: '',
     password: '',
   });
-
+  
   const showPassword = ref(false);
 
   const isRequired = [
@@ -106,13 +110,11 @@
     (v: string) => !!v || t('REQUIRED_EMAIL'),
     (v: string) => /.+@.+\..+/.test(v) || t('INVALID_EMAIL')
   ]
-
+  
+  // const token = computed(() => store.getters['User/token']);
   const onLogin = async () => {
-    console.log(form.value);
-    const response = await services.login(form.value.email, form.value.password);
-    if (response?.status === 201) {
-      Router.push('/dashboard');
-    }
+    const response = await store.dispatch('User/ActionLogin', {email: form.value.email, password: form.value.password});
+    if (response?.status === 201) Router.push('/dashboard');
   };
 
 </script>

@@ -1,28 +1,22 @@
 <script setup lang="ts">
-  import { ref } from 'vue';
+  import { ref, computed, watch } from 'vue';
   import { useI18n } from "vue-i18n";
   import i18n from "../plugins/i18n"; 
+  import { useStore } from 'vuex';
+
+  const store = useStore();
 
   const props = defineProps({
       noTitle: {
         type: Boolean,
         default: false,
-      },
+      }
   });
 
-  const selectedLanguage = ref({ label: 'English', language: 'en', flag: 'united-states' });
-  const languages = ref([
-    { label: 'English', language: 'en', flag: 'united-states'},
-    // { label: 'Español', language: 'es', flag: 'spain'},
-    { label: 'Portugues', language: 'pt', flag: 'portugal'}
-  ]);
-
-  const { t } = useI18n({
-    inheritLocale: true,
-    useScope: 'local'
-  })
-  
-  const changeLocale = (locale:any) => i18n.global.locale.value = locale.language;
+  const selectedLanguage = computed(() => store.getters['User/selectedLanguage']);  
+  console.log("🚀 ~ file: LanguageSelect.vue ~ line 17 ~ selectedLanguage", selectedLanguage)
+  const languages = computed(() => store.getters['User/languages']);    
+  const changeLocale = async (locale:any) => await store.dispatch('User/ActionSetLanguage', locale);
 
 </script>
 
@@ -34,6 +28,7 @@
     :options="languages"
     filled
   >
+
     <template v-slot:selected>
       <q-item dense class="q-px-none">
         <q-item-section>

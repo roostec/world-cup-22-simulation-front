@@ -1,20 +1,8 @@
-import axios from 'axios';
-import { useStore } from 'vuex';
-const store = useStore();
-// const schoolName: string = store.getters['siteConfigModule/getSchoolName'];
-
-import services from '../services';
-
+import store from '../store'
 
 export default async (to:any, from:any, next:any) => {
 
   // const user = store.getters['User/users'];
-  // console.log("🚀 ~ file: authGuard.ts ~ line 10 ~ user", user)
-
-  const token = localStorage["token"]
-  ? localStorage.getItem("token")
-  : null;
-  console.log("🚀 ~ file: authGuard.ts ~ line 15 ~ token", token)
   // const http = axios.create({ baseURL: process.env.VUE_APP_SERVER });
   // http.interceptors.request.use(
   //   (config) => {
@@ -24,49 +12,29 @@ export default async (to:any, from:any, next:any) => {
   //   (error) => Promise.reject(error)
   // );
 
+  const token = localStorage["access_token"]
+  ? localStorage.getItem("access_token")
+  : null;
+
   if (to.matched.some((record:any) => record.meta.requiresAuth)) {
-    console.log('required login');
-    // store.dispatch("ActionSetLoading", true);
     try {
       if (!token) throw "token não informado";
-      const response = await services.me();      
-      console.log("🚀 ~ file: authGuard.ts ~ line 33 ~ response", response)
-      if (response?.status !== 200) throw "session nao iniciada";
-
-      // store.dispatch("Account/ActionSetUser", user);
-      // if (store.getters["Company/companies"].length == 0) {
-      //   const { data: companies } = await http.get(`companies/me`);
-      //   if (companies.length > 0)
-      //     store.dispatch("Company/ActionSetCompanies", companies);
-      //   if (companies.length > 0)
-      //     store.dispatch(
-      //       "Company/ActionSetCompanySelect",
-      //       companies.find(
-      //         (item) =>
-      //           item.id_company == user.preference.company_default.id_company
-      //       )
-      //     );
-      // }
-      next();
+      const user:any = await store.dispatch("User/ActionSetMe");
+      if (user) next();
     } catch (error:any) {
       error.response ? console.log(error.response.data) : console.log(error);
       next({ name: "SignIn" });
-    } finally {
-        store.dispatch("ActionSetLoading", false);
     }
   } else {
-    console.log('else manooooo');
-    // store.dispatch("ActionSetLoading", true);
-    // try {
-    //   if (!token) throw "token não informado";
-    //   await http.get("account/me");
-    //   console.log("🚀 ~ file: authGuard.js ~ line 19 ~ user");
-    //   next({ name: "Main" });
-    // } catch (error) {
-    //   error.response ? console.log(error.response.data) : console.log(error);
+    try {
+      if (!token) throw "token não informado";
+      const user:any = await store.dispatch("User/ActionSetMe"); 
+      if(user) next({ name: "Dashboard" });
+      next({ name: "SignIn" });
+    } catch (error:any) {
+      error.response ? console.log(error.response.data) : console.log(error);
+      await store.dispatch("User/ActionSetMe", null);
       next();
-    // } finally {
-    //     store.dispatch("ActionSetLoading", false);
-    // }
+    }
   }
 };

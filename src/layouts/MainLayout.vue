@@ -61,9 +61,9 @@
 
   const $q = useQuasar()
   // get status
-  console.log($q.dark.isActive) // true, false
+  // console.log($q.dark.isActive) // true, false
   // get configured status
-  console.log($q.dark.mode) // "auto", true, false
+  // console.log($q.dark.mode) // "auto", true, false
 
 
 </script>

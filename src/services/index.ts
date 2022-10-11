@@ -1,5 +1,5 @@
 // import axios, {AxiosInstance} from "axios";
-import {AxiosInstance} from "axios";
+import axios, { AxiosInstance } from "axios";
 import { Loading } from 'quasar';
 
 import UseNotify from '../composables/UseNotify';
@@ -44,27 +44,56 @@ export default {
       if (status === 201) {
         return {data, status};
       } 
-    } catch (error) {
-      console.log('ERROR: ', error);  
-      notify('negative', 'Erro', 'Erro ao criar conta');    
+    } catch (error:any) {
+      console.log('ERROR: ', error.response);  
+      if (error.response.status === 401) notify('negative', 'Erro', 'Usuario ou senha invalidos');
+      else notify('negative', 'Erro', 'Erro ao tentar logar, tente mais tarde');        
+      return error; 
     } finally {
       Loading.hide();
     }
   },
 
-  async me() {        
+  async me(notifyMe = false) {        
     try {
       Loading.show();
       const { data, status } = await $axios.get<AxiosInstance>('accounts/me');      
-      if (status === 200) {
-        return {data, status};
-      } 
+      if (status === 200) return {data, status} 
     } catch (error) {
       console.log('ERROR: ', error);  
-      notify('negative', 'Erro', 'Erro ao criar conta');    
+      if (notifyMe) notify('negative', 'Erro', 'ME');   
+      return error;  
     } finally {
       Loading.hide();
     }
-  }
+  },
+
+  async ipInfo() {        
+    try {
+      Loading.show();
+      const { data, status } = await axios.get<AxiosInstance>('https://ipinfo.io/json?token=4b83ced3eb45f2');      
+      if (status === 200) return {data, status} 
+    } catch (error) {
+      console.log('ERROR: ', error);  
+      // if (notifyMe) notify('negative', 'Erro', 'ME');   
+      return error;  
+    } finally {
+      Loading.hide();
+    }
+  },
+
+  // async preferences(dark_mode: boolean | null = null, language: string | null = null) {        
+  //   try {
+  //     Loading.show();
+  //     const { data, status } = await $axios.patch<AxiosInstance>('accounts/preferences', {dark_mode, language});      
+  //     if (status === 200) return {data, status} 
+  //   } catch (error) {
+  //     console.log('ERROR: ', error);  
+  //     if (notifyMe) notify('negative', 'Erro', 'ME');   
+  //     return error;  
+  //   } finally {
+  //     Loading.hide();
+  //   }
+  // }
 
 }

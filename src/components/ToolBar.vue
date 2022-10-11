@@ -1,22 +1,49 @@
 <script setup lang="ts">
-  import { ref, onMounted } from 'vue';
+  import { ref, onMounted, computed } from 'vue';
   import { useQuasar } from 'quasar';
   import LanguageSelect from './LanguageSelect.vue';
+  import { useStore } from 'vuex';
+  import services from '../services';
+  import i18n from "../plugins/i18n"; 
 
+  const store = useStore();
   const $q = useQuasar();
 
-  const theme = ref('Light');  
-  // Checking if the user has the preference of color scheme (dark or light) in the system 
+  const theme = ref('Light'); 
+  const user:any = computed(() => store.getters['User/user']);
+
   onMounted(() => {
-    const preferDarkinSystem = window.matchMedia('(prefers-color-scheme: dark)').matches;
-    if (preferDarkinSystem) {
+    getThemeInMe();
+  });
+
+
+  
+  const getThemeInMe = () => {
+    const {preference} = user.value;
+    if (preference[0].dark_mode != null) {
+      if (preference[0].dark_mode) {
+        $q.dark.set(true);
+        theme.value = 'Light';
+      } else {
+        $q.dark.set(false);
+        theme.value = 'Dark';
+      }
+    } else {
+      checkThemeinSystem();
+    } 
+  }
+
+
+  // Checking if the user has the preference of color scheme (dark or light) in the system 
+  const checkThemeinSystem = () => {
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
       $q.dark.set(true);
       theme.value = 'Light';
     } else {
       $q.dark.set(false)
       theme.value = 'Dark';
-    }
-  });
+    }     
+  };
 
   const toggle = () => {
     $q.dark.toggle();
@@ -29,9 +56,9 @@
   <q-btn icon="person" :color="$q.dark.isActive ? 'light' : 'primary'" flat round>
     <q-menu>
       <q-list style="min-width: 100px">
-        Nome do Usuario
+        {{user.name}}
 
-        <LanguageSelect/>
+        <LanguageSelect />
 
         <q-item clickable v-close-popup  @click="toggle">
           <q-item-section side>

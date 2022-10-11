@@ -1,20 +1,23 @@
 <template>
   <q-page class="flex flex-center w-full p-5">
-    <!-- <div class="title text-left">
-      <h1>Palpites</h1>
-      <span>Suas apostas estão aqui</span>
-    </div> -->
-    
-      <q-card bordered flat class="my-card bg-slate-100 w-full max-w-[1100px] flex flex-col flex-center items-stretch">
-        <div v-for="(match, index) in matches" :key="index">
-          <Match :match="match"/>
-          <q-separator inset v-if="index != matches.length - 1"/>
+    <!-- <q-page-sticky expand position="top" class="px-5"> -->
+
+        <div class="title text-left">
+          <h1>Palpites</h1>
+          <span>Suas apostas estão aqui</span>
         </div>
- 
-      </q-card>
-
-      <q-btn color="positive" label="Salvar"/>
-
+        
+          <q-card bordered flat class="my-card bg-slate-100 w-full max-w-[1100px] flex flex-col flex-center items-stretch">
+            <div v-for="(match, index) in matches" :key="index">
+              <Match :match="match"/>
+              <q-separator inset v-if="index != matches.length - 1"/>
+            </div>
+     
+          </q-card>
+    
+          <q-btn color="positive" label="Salvar"/>
+    
+    <!-- </q-page-sticky> -->
   </q-page>
 </template>
 

@@ -19,7 +19,7 @@
   });
 
   const getSports = () => {
-    store.dispatch('User/ActionSetSports', getStatsQuery());
+    // store.dispatch('User/ActionSetSports', getStatsQuery());
   };
 
   onMounted(async () => {
