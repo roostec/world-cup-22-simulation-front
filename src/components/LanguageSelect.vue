@@ -14,7 +14,6 @@
   });
 
   const selectedLanguage = computed(() => store.getters['User/selectedLanguage']);  
-  console.log("🚀 ~ file: LanguageSelect.vue ~ line 17 ~ selectedLanguage", selectedLanguage)
   const languages = computed(() => store.getters['User/languages']);    
   const changeLocale = async (locale:any) => await store.dispatch('User/ActionSetLanguage', locale);
 
