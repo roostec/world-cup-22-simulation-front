@@ -1,5 +1,11 @@
 // import axios, {AxiosInstance} from "axios";
 import {AxiosInstance} from "axios";
+import { Loading } from 'quasar';
+
+import UseNotify from '../composables/UseNotify';
+const {notify} = UseNotify();
+
+// const $q = useQuasar();
 
 // export const $axios = axios.create({
 //   baseURL: `https://pokeapi.co/api/`,
@@ -22,10 +28,43 @@ import {AxiosInstance} from "axios";
 
 import $axios from "../interceptors";
 
-export default {
+export default { 
   async getAll() {
     const { data } = await $axios.get<AxiosInstance>('v2/');
-    console.log("🚀 ~ file: index.ts ~ line 12 ~ getAll ~ data", data)
     return data;
+  },
+
+  async login( email: string, password: string ) {        
+    try {
+      if (!email) throw "email empty";
+      if (!password) throw "password empty";
+
+      Loading.show();
+      const { data, status } = await $axios.post<AxiosInstance>('accounts/authentication', {email, password});      
+      if (status === 201) {
+        return {data, status};
+      } 
+    } catch (error) {
+      console.log('ERROR: ', error);  
+      notify('negative', 'Erro', 'Erro ao criar conta');    
+    } finally {
+      Loading.hide();
+    }
+  },
+
+  async me() {        
+    try {
+      Loading.show();
+      const { data, status } = await $axios.get<AxiosInstance>('accounts/me');      
+      if (status === 200) {
+        return {data, status};
+      } 
+    } catch (error) {
+      console.log('ERROR: ', error);  
+      notify('negative', 'Erro', 'Erro ao criar conta');    
+    } finally {
+      Loading.hide();
+    }
   }
+
 }

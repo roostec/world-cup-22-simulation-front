@@ -1,10 +1,12 @@
-import { useQuasar } from 'quasar'
+import { Notify } from 'quasar'
+// import { useQuasar } from 'quasar'
 export default function useNotify () {
-  const $q = useQuasar();
+  // const $q = useQuasar();
 
   const notify = (type: string = 'info', message: string, caption: string = '') => {
     // type: 'info', 'positive', 'negative', 'warning'
-    $q.notify({
+    // $q.notify({
+      Notify.create({
       type,
       message,
       caption

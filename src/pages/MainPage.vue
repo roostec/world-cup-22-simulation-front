@@ -24,7 +24,7 @@
 
   onMounted(async () => {
     await getSports();
-    await services.getAll();
+    // await services.getAll();
   }); 
 
   // Methods

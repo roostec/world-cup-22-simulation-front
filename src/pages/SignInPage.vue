@@ -82,6 +82,11 @@
 <script setup lang="ts">
   import {ref} from 'vue';
   import { useI18n } from "vue-i18n";
+  import { useStore } from 'vuex';
+  import services from '../services';
+  import { useRouter, useRoute } from 'vue-router'
+  const Router = useRouter();
+  const Route = useRoute();
 
   const { t } = useI18n();
 
@@ -94,7 +99,7 @@
 
   const isRequired = [
     (v: string) => (v && v.length > 0) || t('PLEASE_TYPE_SOMETHING'),
-    (v: string) => (v.length > 6) || t('PASS_6_CARACTER'),
+    (v: string) => (v.length > 5) || t('PASS_6_CARACTER'),
   ]
 
   const isEmail = [
@@ -102,9 +107,12 @@
     (v: string) => /.+@.+\..+/.test(v) || t('INVALID_EMAIL')
   ]
 
-  const onLogin = () => {
-     // this.logIn();
+  const onLogin = async () => {
     console.log(form.value);
+    const response = await services.login(form.value.email, form.value.password);
+    if (response?.status === 201) {
+      Router.push('/dashboard');
+    }
   };
 
 </script>
