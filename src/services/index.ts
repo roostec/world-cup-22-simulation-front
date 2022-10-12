@@ -82,18 +82,23 @@ export default {
     }
   },
 
-  // async preferences(dark_mode: boolean | null = null, language: string | null = null) {        
-  //   try {
-  //     Loading.show();
-  //     const { data, status } = await $axios.patch<AxiosInstance>('accounts/preferences', {dark_mode, language});      
-  //     if (status === 200) return {data, status} 
-  //   } catch (error) {
-  //     console.log('ERROR: ', error);  
-  //     if (notifyMe) notify('negative', 'Erro', 'ME');   
-  //     return error;  
-  //   } finally {
-  //     Loading.hide();
-  //   }
-  // }
+  async preferences(dark_mode: boolean | undefined = undefined, language: string | undefined = undefined) {      
+    try {
+      Loading.show();
+      const params = Object.assign({},
+        dark_mode !== undefined ? {dark_mode} : {},
+        language !== undefined ? {language} : {}
+        );
+        
+      const { data, status } = await $axios.patch<AxiosInstance>('accounts/preferences', params);      
+      // if (status === 200) return {data, status} 
+    } catch (error) {
+      console.log('ERROR: ', error);  
+      // if (notifyMe) notify('negative', 'Erro', 'ME');   
+      // return error;  
+    } finally {
+      Loading.hide();
+    }
+  }
 
 }

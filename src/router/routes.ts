@@ -100,5 +100,10 @@ export default [
       },
     ],
   },
-  { path: '/:pathMatch(.*)*', name: 'NotFound', component: () => import("@/layouts/404Layout.vue") },
+  { path: '/:pathMatch(.*)*',
+    name: 'NotFound', 
+    component: () => import("@/layouts/404Layout.vue"),
+    meta: {
+      requiresAuth: false
+  } },
 ];

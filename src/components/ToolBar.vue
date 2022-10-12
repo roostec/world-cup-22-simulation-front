@@ -4,7 +4,7 @@
   import LanguageSelect from './LanguageSelect.vue';
   import { useStore } from 'vuex';
   import services from '../services';
-  import i18n from "../plugins/i18n"; 
+  // import i18n from "../plugins/i18n"; 
 
   const store = useStore();
   const $q = useQuasar();
@@ -15,8 +15,6 @@
   onMounted(() => {
     getThemeInMe();
   });
-
-
   
   const getThemeInMe = () => {
     const {preference} = user.value;
@@ -33,7 +31,6 @@
     } 
   }
 
-
   // Checking if the user has the preference of color scheme (dark or light) in the system 
   const checkThemeinSystem = () => {
     if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
@@ -45,9 +42,18 @@
     }     
   };
 
-  const toggle = () => {
+  const toggle = async () => {
     $q.dark.toggle();
-    $q.dark.isActive ? theme.value = 'Light' : theme.value = 'Dark';
+
+    if ($q.dark.isActive) {
+      console.log("🚀 ~ file: ToolBar.vue ~ line 49 ~ toggle ~ $q.dark.isActive", $q.dark.isActive)
+      theme.value = 'Light';
+      await services.preferences(true, undefined)
+    } else { 
+      console.log("🚀 ~ file: ToolBar.vue ~ line 49 ~ toggle ~ $q.dark.isActive", $q.dark.isActive)
+      theme.value = 'Dark';
+      await services.preferences(false, undefined)
+    }
   }
 
 </script>

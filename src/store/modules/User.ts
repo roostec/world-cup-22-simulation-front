@@ -66,7 +66,7 @@ export default {
       return;
     },
 
-    async ActionSetLocation({ commit, dispatch }:any, payload:any) {
+    async ActionSetLocation({ commit, dispatch }:any) {
         const response:any = await services.ipInfo();
         if (response.status === 200) {
           commit("SET_LOCATION", response.data);

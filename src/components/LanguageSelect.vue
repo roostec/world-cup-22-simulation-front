@@ -1,8 +1,7 @@
 <script setup lang="ts">
-  import { ref, computed, watch } from 'vue';
-  import { useI18n } from "vue-i18n";
-  import i18n from "../plugins/i18n"; 
+  import { computed, watch } from 'vue'; 
   import { useStore } from 'vuex';
+  import services from '../services';
 
   const store = useStore();
 
@@ -13,9 +12,16 @@
       }
   });
 
-  const selectedLanguage = computed(() => store.getters['User/selectedLanguage']);  
+  const selectedLanguage = computed(() =>  store.getters['User/selectedLanguage']);
+  watch(selectedLanguage, async (newVal) => {
+    if (!newVal) await store.dispatch('User/ActionSetLocation');
+  }, { immediate:true });
+
   const languages = computed(() => store.getters['User/languages']);    
-  const changeLocale = async (locale:any) => await store.dispatch('User/ActionSetLanguage', locale);
+  const changeLocale = async (locale:any) => {
+    await store.dispatch('User/ActionSetLanguage', locale);
+    await services.preferences(undefined, locale.language)
+  }
 
 </script>
 
@@ -32,6 +38,7 @@
       <q-item dense class="q-px-none">
         <q-item-section>
           <q-img
+            v-if="selectedLanguage"
             img-class="rounded-borders"
             :src="`src/assets/flags/${selectedLanguage.flag}.png`"
             spinner-color="white"

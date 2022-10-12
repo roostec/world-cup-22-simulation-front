@@ -28,8 +28,9 @@ export default async (to:any, from:any, next:any) => {
   } else {
     try {
       if (!token) throw "token não informado";
+      console.log("🚀 ~ file: authGuard.ts ~ line 31 ~ token", token)
       const user:any = await store.dispatch("User/ActionSetMe"); 
-      if(user) next({ name: "Dashboard" });
+      if (user) next({ name: "Dashboard" });
       next({ name: "SignIn" });
     } catch (error:any) {
       error.response ? console.log(error.response.data) : console.log(error);
